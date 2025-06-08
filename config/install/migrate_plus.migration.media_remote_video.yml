@@ -1,0 +1,30 @@
+id: media_remote_video
+label: 'Media - Remote Video'
+migration_group: custom_migrate
+
+source:
+  plugin: remote_media_rv
+  key: remote
+
+process:
+  uid:
+    plugin: migration_lookup
+    migration: user
+    source: uid
+  name: name
+  field_media_oembed_video/value:
+    plugin: get
+    source: video_url
+
+destination:
+  plugin: 'entity:media'
+  default_bundle: remote_video
+
+migration_dependencies:
+  required:
+    - user
+
+dependencies:
+  enforced:
+    module:
+      - migrate_plus

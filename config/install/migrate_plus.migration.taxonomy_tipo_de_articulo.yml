@@ -1,0 +1,39 @@
+id: taxonomy_tipo_de_articulo
+label: 'Taxonomía - Tipo de artículo'
+migration_group: custom_migrate
+
+source:
+  plugin: remote_taxonomy_term__tipo_de_articulo
+  key: remote
+
+process:
+
+  name: name
+  vid:
+    plugin: default_value
+    default_value: tipo_de_articulo
+
+  field_cuerpo/value: field_cuerpo
+  field_display_edge_to_edge: display_edge_to_edge
+  field_hide_breadcrumb: hide_breadcrumb
+  field_hide_hide_sidebars: hide_hide_sidebars
+  field_hide_sidebars: hide_sidebars
+  field_hide_title: hide_title
+  field_custom_library: custom_library
+
+  field_imagen/target_id:
+    plugin: migration_lookup
+    migration: media_image
+    source: media_image_id
+
+destination:
+  plugin: entity:taxonomy_term
+
+migration_dependencies:
+  required:
+    - media_image
+
+dependencies:
+  enforced:
+    module:
+      - taxonomy

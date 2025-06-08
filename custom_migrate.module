@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Custom migrate module.
+ */
+
+
+
+/*
+
+
+drush config:delete migrate_plus.migration.media_image
+drush config:delete migrate_plus.migration.media_remote_video
+drush config:delete migrate_plus.migration.node_article
+drush config:delete migrate_plus.migration.node_page
+drush config:delete migrate_plus.migration.taxonomy_terms_tipo_de_articulo
+
+
+drush config:delete migrate_plus.migration.user
+drush config:delete migrate_plus.migration.media_document
+drush config:delete migrate_plus.migration_group.custom_migrate
+
+Reinstalar la migración
+drush migrate:reset-status media_document
+drush sqlq "DELETE FROM migrate_map_media_document"
+drush sqlq "DELETE FROM migrate_message_media_document"
+
+
+ * */
+
+/**
+ * Asegura que el nombre de usuario sea único.
+ */
+function custom_migrate_ensure_unique_username($name) {
+  $storage = \Drupal::entityTypeManager()->getStorage('user');
+  $original = $name;
+  $i = 1;
+
+  while (!empty($storage->loadByProperties(['name' => $name]))) {
+    $name = $original . '_' . $i++;
+  }
+
+  return $name;
+}
+
+
+
+
+
+
+/**
+ * Implements hook_uninstall().
+ */
+//~ function custom_migrate_uninstall() {
+  //~ // Borra las migraciones y el grupo.
+  //~ \Drupal::configFactory()->getEditable('migrate_plus.migration.user')->delete();
+  //~ \Drupal::configFactory()->getEditable('migrate_plus.migration.media_document')->delete();
+  //~ \Drupal::configFactory()->getEditable('migrate_plus.migration_group.custom_migrate')->delete();
+//~ }

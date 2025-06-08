@@ -1,0 +1,47 @@
+id: node_article
+label: 'Nodes - Article'
+migration_group: custom_migrate
+
+source:
+  plugin: remote_node_article
+  key: remote
+
+process:
+  title: title
+  uid:
+    plugin: migration_lookup
+    migration: user
+    source: uid
+  created: created
+  changed: changed
+  body/value: body
+  body/summary: body_summary
+  body/format:
+    plugin: default_value
+    default_value: basic_html
+  field_display_edge_to_edge: display_edge_to_edge
+  field_hide_breadcrumb: hide_breadcrumb
+  field_hide_sidebars: hide_sidebars
+  field_hide_title: hide_title
+  field_image:
+    plugin: migration_lookup
+    migration: media_image
+    source: image
+  field_custom_library: custom_library
+  field_tipo_de_articulo:
+    plugin: migration_lookup
+    migration: taxonomy_tipo_de_articulo
+    source: tipo_de_articulo
+
+destination:
+  plugin: entity:node
+  default_bundle: article
+
+migration_dependencies:
+  required:
+    - user
+    - media_image
+    - media_document
+    - media_remote_video
+    - taxonomy_tipo_de_articulo
+

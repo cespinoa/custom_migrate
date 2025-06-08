@@ -1,0 +1,43 @@
+id: user
+label: 'Usuarios'
+migration_group: custom_migrate
+
+source:
+  plugin: embedded_user
+  key: remote
+  table: users_field_data
+  ids:
+    uid:
+      type: integer
+  constants:
+    excluded_uid: 1
+  query:
+    where:
+      conditions:
+        - field: uid
+          value: 1
+          operator: '!='
+
+process:
+  name:
+    plugin: callback
+    callable: custom_migrate_ensure_unique_username
+    source: name
+
+  mail: mail
+  status: status
+  timezone: timezone
+  created: created
+  access: access
+  login: login
+  roles: roles
+
+destination:
+  plugin: entity:user
+
+migration_dependencies: {}
+
+dependencies:
+  enforced:
+    module:
+      - user

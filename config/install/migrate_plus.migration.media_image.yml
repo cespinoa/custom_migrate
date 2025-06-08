@@ -1,0 +1,50 @@
+id: media_image
+label: 'Media - Image'
+migration_group: custom_migrate
+
+source:
+  plugin: remote_media_image
+  key: remote
+  constants:
+    file_destination: 'public://images'
+    directory_separator: '/'
+
+process:
+  
+  uid:
+    plugin: migration_lookup
+    migration: user
+    source: uid
+
+  name: name
+
+  _file_destination:
+    plugin: concat
+    source:
+      - constants/file_destination
+      - constants/directory_separator
+      - local_destination
+      - constants/directory_separator
+    
+  field_media_image/target_id:
+    plugin: file_import
+    source: remote_file_url
+    destination: '@_file_destination'
+    uid: '@uid'
+    skip_on_missing_source: true
+    file_exists: rename
+    id_only: true
+
+
+destination:
+  plugin: 'entity:media'
+  default_bundle: image
+
+dependencies:
+  enforced:
+    module:
+      - migrate_file
+
+migration_dependencies:
+  required:
+    - user

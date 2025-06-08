@@ -1,0 +1,15 @@
+id: custom_migrate
+label: 'Migraciones del sitio origen'
+description: 'Migraciones de taxonomía, media y nodos desde un segundo sitio Drupal.'
+source_type: Drupal 11
+shared_configuration:
+  source:
+    plugin: embedded_data
+    key: source
+    database:
+      driver: mysql
+      database: carlosespino
+      username: admin
+      password: Uak_2014
+      host: 127.0.0.1
+      port: 3306
